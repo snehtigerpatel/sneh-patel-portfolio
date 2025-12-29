@@ -1,0 +1,23 @@
+---
+import Layout from '../../components/Layout.astro';
+import fs from 'fs';
+import path from 'path';
+
+const postsDir = new URL('../../pages/blog', import.meta.url);
+const posts = [
+  { title: 'Welcome — Starter post', url: '/blog/2025-12-29-welcome', date: '2025-12-29' }
+];
+---
+<Layout title="Blog — Snehtiger Patel">
+  <section class="container py-16">
+    <h2 class="text-2xl font-bold mb-6">Blog</h2>
+    <ul class="space-y-4">
+      {posts.map(p => (
+        <li>
+          <a href={p.url} class="text-accent font-medium">{p.title}</a>
+          <div class="text-sm text-slate-600">{p.date}</div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>

@@ -1,71 +1,55 @@
 ---
 import Layout from '../components/Layout.astro';
+import TypedHero from '../components/TypedHero.astro';
 const projects = [
-  { title: 'Project One', description: 'Short description of project one', url: '/projects#project-one' },
-  { title: 'Project Two', description: 'Short description of project two', url: '/projects#project-two' }
+  { title: 'Project One', description: 'Short description of project one', url: '#' },
+  { title: 'Project Two', description: 'Short description of project two', url: '#' }
 ];
-const posts = [{ title: 'Welcome — Starter post', slug: '/blog/2025-12-29-welcome' }];
+const posts = [{ title: 'Welcome — Starter post', url: '#', date: '2025-12-29' }];
 ---
 <Layout title="Sneh Patel — Portfolio" description="Portfolio of Sneh Patel">
-  <section class="container py-16">
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <div id="hero" class="reveal bg-gradient-to-r from-slate-900 to-accent text-white rounded-lg p-10"> 
-        <h1 class="text-4xl font-bold mb-4">Hi, I’m Sneh Patel.</h1> 
-        <p class="text-lg text-slate-100/90 mb-6">I build web things — products, tooling, and portfolios.</p> 
-        <div class="flex gap-3"> <a href="/projects" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded transition">View projects</a> <a href="/contact" class="px-4 py-2 border border-white/20 rounded hover:bg-white/5 transition">Contact</a> 
-        </div> 
-        </div>
-
-      <div>
-        <div class="bg-slate-50 border rounded p-6 reveal">
-          <h3 class="font-semibold mb-2">Featured projects</h3>
-          <ul class="space-y-3">
-            {projects.map(p => (
-              <li>
-                <a class="text-accent font-medium" href={p.url}>{p.title}</a>
-                <div class="text-sm text-slate-600">{p.description}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div class="mt-6 reveal">
-          <h4 class="font-semibold">Latest post</h4>
-          <a class="text-accent" href={posts[0].slug}>{posts[0].title}</a>
-        </div>
+  <section id="home" class="container py-24 reveal">
+    <div class="max-w-2xl">
+      <h1 class="text-5xl font-bold leading-tight mb-4">Hi, I’m Sneh Patel.</h1>
+      <p class="text-xl text-slate-200 mb-6">
+        <TypedHero strings={['I build web things.', 'I design web products.', 'I create experiences.']} />
+      </p>
+      <div class="flex gap-3">
+        <a href="#projects" class="px-5 py-3 bg-accent text-slate-900 rounded-lg font-medium transition-transform transform hover:-translate-y-1">Projects</a>
+        <a href="#contact" class="px-5 py-3 border border-slate-600 rounded-lg text-slate-200 hover:bg-slate-800">Contact</a>
       </div>
     </div>
   </section>
+
+  <section id="projects" class="container py-20">
+    <h2 class="text-2xl font-semibold mb-6 reveal">Projects</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      {projects.map(p => (
+        <article class="bg-card border rounded-lg p-6 reveal">
+          <h3 class="font-semibold text-lg text-white">{p.title}</h3>
+          <p class="text-slate-300 mt-2">{p.description}</p>
+          <div class="mt-4">
+            <a class="text-accent hover:underline" href={p.url}>View project →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="blog" class="container py-20">
+    <h2 class="text-2xl font-semibold mb-6 reveal">Blog</h2>
+    <ul class="space-y-4">
+      {posts.map(p => (
+        <li class="reveal">
+          <a href={p.url} class="text-accent font-medium">{p.title}</a>
+          <div class="text-sm text-slate-400">{p.date}</div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="contact" class="container py-20">
+    <h2 class="text-2xl font-semibold mb-6 reveal">Contact</h2>
+    <p class="text-slate-300 reveal">Want to work together? Email me at <strong>you@example.com</strong>.</p>
+  </section>
 </Layout>
-
-<script is:inline>
-  (function () {
-    if (typeof window === 'undefined') return;
-
-    // Hero: add visible class on load for a smooth entrance
-    window.addEventListener('load', () => {
-      const hero = document.getElementById('hero');
-      if (hero) requestAnimationFrame(() => hero.classList.add('reveal-visible'));
-    });
-
-    // IntersectionObserver for other .reveal elements
-    const reveals = document.querySelectorAll('.reveal:not(#hero)');
-    if (reveals.length === 0) return;
-
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('reveal-visible');
-            obs.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12 });
-
-      reveals.forEach(el => io.observe(el));
-    } else {
-      // Fallback: make them visible immediately
-      reveals.forEach(el => el.classList.add('reveal-visible'));
-    }
-  })();
-</script>

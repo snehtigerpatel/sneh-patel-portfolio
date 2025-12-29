@@ -4,17 +4,14 @@
 
 /* page variables */
 :root {
-  --bg-center: rgba(6, 182, 212, 0.12); /* faint teal center */
-  --bg-mid: rgba(78, 156, 220, 0.75);     /* mid tone */
-  --bg-edge: rgb(92, 119, 238);         /* outer dark */
+  --bg-center: rgba(6, 182, 212, 0.12); /* colored center */
+  --bg-mid: rgba(15, 23, 42, 0.78);
+  --bg-edge: rgba(2, 6, 23, 1);
   --max-width: 1100px;
 }
 
-/* full-page inside-out radial gradient */
-html, body {
-  height: 100%;
-}
-
+/* full-page inside-out radial gradient + subtle "breath" animation */
+html, body { height: 100%; }
 body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   color: #e6eef6;
@@ -22,8 +19,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 
-  /* inside-out radial gradient:
-     center is light/colored, edges are dark */
   background: radial-gradient(
     circle at 40% 35%,
     var(--bg-center) 0%,
@@ -35,7 +30,21 @@ body {
   background-size: cover;
 }
 
-/* container layout */
+/* animate radial slightly to feel alive */
+@keyframes radial-breathe {
+  0% { background-position: 40% 35%; transform: scale(1); }
+  50% { background-position: 45% 40%; transform: scale(1.02); }
+  100% { background-position: 40% 35%; transform: scale(1); }
+}
+.background-animated {
+  animation: radial-breathe 18s ease-in-out infinite;
+  will-change: transform, background-position;
+}
+@media (prefers-reduced-motion: reduce) {
+  .background-animated { animation: none; transform: none; }
+}
+
+/* layout container */
 .container {
   max-width: var(--max-width);
   margin-left: auto;
@@ -44,9 +53,25 @@ body {
   padding-right: 1rem;
 }
 
-/* subtle card backgrounds so they stand out on dark radial bg */
+/* glass/card style */
 .bg-card {
   background-color: rgba(255,255,255,0.03);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
   border: 1px solid rgba(255,255,255,0.04);
 }
+
+/* reveal animations for elements (used by IntersectionObserver / load) */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 480ms cubic-bezier(.2,.9,.2,1), transform 480ms cubic-bezier(.2,.9,.2,1);
+  will-change: opacity, transform;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* minor helpers for nav active state */
+.nav-link { transition: color 160ms, opacity 160ms; opacity: 0.9; }
+.nav-link.is-active { color: #06b6d4; opacity: 1; }

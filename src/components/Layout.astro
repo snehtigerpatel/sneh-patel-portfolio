@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Particles from './Particles.astro';
 const { title = 'Snehtiger Patel', description = 'Portfolio' } = Astro.props;
 ---
 <!doctype html>
@@ -10,25 +11,28 @@ const { title = 'Snehtiger Patel', description = 'Portfolio' } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
   </head>
-  <!-- body uses the radial background from global.css -->
-  <body class="min-h-screen text-slate-100">
-    <header class="bg-transparent sticky top-0 z-20">
+
+  <body class="min-h-screen text-slate-100 background-animated">
+    <!-- Particles run in browser; z-index keeps them behind content -->
+    <Particles />
+
+    <header class="bg-transparent sticky top-0 z-30">
       <div class="container flex items-center justify-between h-16">
-        <a href="/" class="font-semibold">{title}</a>
+        <a href="#home" class="font-semibold">{title}</a>
         <nav class="space-x-4 text-sm">
-          <a class="hover:underline" href="/about">About</a>
-          <a class="hover:underline" href="/projects">Projects</a>
-          <a class="hover:underline" href="/blog">Blog</a>
-          <a class="hover:underline" href="/contact">Contact</a>
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#blog" class="nav-link">Blog</a>
+          <a href="#contact" class="nav-link">Contact</a>
         </nav>
       </div>
     </header>
 
-    <main class="flex-grow">
+    <main class="flex-grow relative z-10">
       <slot />
     </main>
 
-    <footer class="border-t mt-12 bg-transparent">
+    <footer class="mt-12 bg-transparent">
       <div class="container py-8 text-sm text-slate-300">
         <div class="flex items-center justify-between">
           <div>© {new Date().getFullYear()} Snehtiger Patel</div>
@@ -39,5 +43,58 @@ const { title = 'Snehtiger Patel', description = 'Portfolio' } = Astro.props;
         </div>
       </div>
     </footer>
+
+    <!-- global scroll-reveal and scrollspy script -->
+    <script is:inline>
+      (function () {
+        if (typeof window === 'undefined') return;
+
+        // reveal elements
+        const reveals = () => {
+          const els = document.querySelectorAll('.reveal');
+          if (!els.length) return;
+          if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries, obs) => {
+              entries.forEach(e => {
+                if (e.isIntersecting) {
+                  e.target.classList.add('reveal-visible');
+                  obs.unobserve(e.target);
+                }
+              });
+            }, { threshold: 0.12 });
+            els.forEach(el => io.observe(el));
+          } else {
+            els.forEach(el => el.classList.add('reveal-visible'));
+          }
+        };
+
+        // run on load
+        window.addEventListener('load', () => {
+          // quick hero reveal (if any)
+          const hero = document.getElementById('home');
+          if (hero) requestAnimationFrame(() => hero.classList.add('reveal-visible'));
+          reveals();
+        });
+
+        // scrollspy: highlight nav links when sections enter view
+        const navLinks = Array.from(document.querySelectorAll('header a.nav-link'));
+        const sections = Array.from(document.querySelectorAll('main [id]'));
+        if (sections.length && 'IntersectionObserver' in window) {
+          const spy = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const id = entry.target.id;
+                navLinks.forEach(a => {
+                  const href = a.getAttribute('href') || '';
+                  a.classList.toggle('is-active', href === `#${id}`);
+                });
+              }
+            });
+          }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+          sections.forEach(s => spy.observe(s));
+        }
+
+      })();
+    </script>
   </body>
 </html>

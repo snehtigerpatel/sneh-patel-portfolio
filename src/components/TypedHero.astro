@@ -1,0 +1,29 @@
+---
+const { strings = ['I build web things.', 'I design products.', 'I create experiences.'] } = Astro.props;
+const id = `typed-${Math.random().toString(36).slice(2,9)}`;
+---
+<span id={id} class="font-medium"></span>
+
+<script is:inline>
+  (async () => {
+    if (typeof window === 'undefined') return;
+    try {
+      const { default: Typed } = await import('https://cdn.jsdelivr.net/npm/typed.js@2.0.12/+esm');
+      const el = document.getElementById('{id}');
+      if (!el) return;
+      const strings = JSON.parse('{JSON.stringify(strings)}');
+      // Initialize Typed
+      new Typed(el, {
+        strings,
+        typeSpeed: 45,
+        backSpeed: 30,
+        backDelay: 1500,
+        loop: true,
+        showCursor: true,
+        cursorChar: '|'
+      });
+    } catch (e) {
+      console.warn('typed.js failed to load', e);
+    }
+  })();
+</script>

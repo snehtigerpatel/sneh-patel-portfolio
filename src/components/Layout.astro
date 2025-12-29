@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+const { title = 'Sneh Patel', description = 'Portfolio' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="bg-white/70 backdrop-blur-sm sticky top-0 z-20 shadow-sm">
+      <div class="container flex items-center justify-between h-16">
+        <a href="/" class="font-semibold">{title}</a>
+        <nav class="space-x-4 text-sm">
+          <a class="hover:underline" href="/about">About</a>
+          <a class="hover:underline" href="/projects">Projects</a>
+          <a class="hover:underline" href="/blog">Blog</a>
+          <a class="hover:underline" href="/contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <footer class="border-t mt-12">
+      <div class="container py-8 text-sm text-slate-600">
+        <div class="flex items-center justify-between">
+          <div>© {new Date().getFullYear()} Sneh Patel</div>
+          <div class="space-x-3">
+            <a href="#" class="hover:underline">GitHub</a>
+            <a href="#" class="hover:underline">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

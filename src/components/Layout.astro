@@ -13,12 +13,17 @@ const { title = 'Snehtiger Patel', description = 'Portfolio' } = Astro.props;
   </head>
 
   <body class="min-h-screen text-slate-100 background-animated">
-    <!-- Particles run in browser; z-index keeps them behind content -->
+    <!-- Particles run in browser; z-index:0 -->
     <Particles />
 
     <header class="bg-transparent sticky top-0 z-30">
       <div class="container flex items-center justify-between h-16">
-        <a href="#home" class="font-semibold">{title}</a>
+        <a href="#home" class="flex items-center gap-3 logo-wrap">
+          <!-- Add your logo file to public/logo.png (or logo.svg) -->
+          <img src="/logo.png" alt="Logo" class="logo" />
+          <span class="font-semibold tracking-tight">Snehtiger Patel</span>
+        </a>
+
         <nav class="space-x-4 text-sm">
           <a href="#home" class="nav-link">Home</a>
           <a href="#projects" class="nav-link">Projects</a>
@@ -44,7 +49,7 @@ const { title = 'Snehtiger Patel', description = 'Portfolio' } = Astro.props;
       </div>
     </footer>
 
-    <!-- global scroll-reveal and scrollspy script -->
+    <!-- global scroll-reveal and scrollspy script (keeps z-index intact) -->
     <script is:inline>
       (function () {
         if (typeof window === 'undefined') return;
@@ -68,15 +73,13 @@ const { title = 'Snehtiger Patel', description = 'Portfolio' } = Astro.props;
           }
         };
 
-        // run on load
         window.addEventListener('load', () => {
-          // quick hero reveal (if any)
           const hero = document.getElementById('home');
           if (hero) requestAnimationFrame(() => hero.classList.add('reveal-visible'));
           reveals();
         });
 
-        // scrollspy: highlight nav links when sections enter view
+        // scrollspy
         const navLinks = Array.from(document.querySelectorAll('header a.nav-link'));
         const sections = Array.from(document.querySelectorAll('main [id]'));
         if (sections.length && 'IntersectionObserver' in window) {
@@ -93,7 +96,6 @@ const { title = 'Snehtiger Patel', description = 'Portfolio' } = Astro.props;
           }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
           sections.forEach(s => spy.observe(s));
         }
-
       })();
     </script>
   </body>

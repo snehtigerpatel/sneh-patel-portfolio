@@ -2,31 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
-/* reveal / fade-in styles (simple CSS-only) */
-.reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 420ms ease, transform 420ms ease;
-}
-.reveal-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Basic page layout tweaks */
+/* page variables */
 :root {
+  --bg-center: rgba(6, 182, 212, 0.12); /* faint teal center */
+  --bg-mid: rgba(78, 156, 220, 0.75);     /* mid tone */
+  --bg-edge: rgb(92, 119, 238);         /* outer dark */
   --max-width: 1100px;
 }
 
-body {
-  @apply bg-white text-slate-800 antialiased;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+/* full-page inside-out radial gradient */
+html, body {
+  height: 100%;
 }
 
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #e6eef6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+
+  /* inside-out radial gradient:
+     center is light/colored, edges are dark */
+  background: radial-gradient(
+    circle at 40% 35%,
+    var(--bg-center) 0%,
+    rgba(6, 182, 212, 0.06) 8%,
+    var(--bg-mid) 45%,
+    var(--bg-edge) 100%
+  );
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* container layout */
 .container {
   max-width: var(--max-width);
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+/* subtle card backgrounds so they stand out on dark radial bg */
+.bg-card {
+  background-color: rgba(255,255,255,0.03);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.04);
 }

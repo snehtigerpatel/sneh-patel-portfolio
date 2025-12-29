@@ -1,0 +1,19 @@
+{
+  "name": "Astro Portfolio (Node 18)",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "remoteUser": "node",
+  "postCreateCommand": "npm ci",
+  "forwardPorts": [3000],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  }
+}

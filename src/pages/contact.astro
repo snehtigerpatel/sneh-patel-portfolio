@@ -1,0 +1,28 @@
+---
+import Layout from '../components/Layout.astro';
+---
+<Layout title="Contact — Snehtiger Patel">
+  <section class="container py-16 max-w-xl">
+    <h2 class="text-2xl font-bold mb-4">Contact</h2>
+    <p class="text-slate-700 mb-6">Want to work together? Send a message or email me at <strong>you@example.com</strong>.</p>
+
+    <!-- Replace the action with your Formspree / other provider endpoint -->
+    <form action="https://formspree.io/f/your-form-id" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-sm">Name</label>
+        <input name="name" required class="w-full border rounded px-3 py-2" />
+      </div>
+      <div>
+        <label class="block text-sm">Email</label>
+        <input name="email" type="email" required class="w-full border rounded px-3 py-2" />
+      </div>
+      <div>
+        <label class="block text-sm">Message</label>
+        <textarea name="message" rows="6" required class="w-full border rounded px-3 py-2"></textarea>
+      </div>
+      <div>
+        <button type="submit" class="px-4 py-2 bg-accent text-white rounded">Send</button>
+      </div>
+    </form>
+  </section>
+</Layout>

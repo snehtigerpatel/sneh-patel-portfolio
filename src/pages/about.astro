@@ -1,0 +1,20 @@
+---
+import Layout from '../components/Layout.astro';
+---
+<Layout title="About — Snehtiger Patel" description="About page">
+  <section class="container py-16">
+    <h2 class="text-2xl font-bold mb-4">About</h2>
+    <p class="mb-4">Write a longer bio here. Describe what you do, technologies you like, and the kinds of projects you build.</p>
+
+    <h3 class="text-xl font-semibold mt-8 mb-3">Skills</h3>
+    <ul class="list-disc ml-5 text-slate-700">
+      <li>Web development: HTML, CSS, JavaScript</li>
+      <li>Frameworks: Astro, React, Next.js (adjust)</li>
+      <li>Tooling: Git, Vercel, Tailwind CSS</li>
+    </ul>
+
+    <h3 class="text-xl font-semibold mt-8 mb-3">Resume</h3>
+    <p>You can add a PDF at <code>/public/resume.pdf</code> and link to it:</p>
+    <a href="/resume.pdf" class="text-accent">Download resume (PDF)</a>
+  </section>
+</Layout>
